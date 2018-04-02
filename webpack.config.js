@@ -7,11 +7,29 @@ const webpack = require("webpack");
 
 module.exports = {
   entry: {
-    main: ["./assets/js/main.js"]
+    main: ["./assets/scss/global.scss", "./assets/js/main.js"]
   },
   output: {
     path: path.resolve(__dirname, "public"),
     filename: "[name].bundle.[hash:10].js"
+  },
+  module: {
+    rules: [{
+      test: /\.s?css$/,
+      use: [{
+        loader: "style-loader"
+      }, {
+        loader: "css-loader",
+        options: {
+          sourceMap: true
+        }
+      }, {
+        loader: "sass-loader",
+        options: {
+          sourceMap: true
+        }
+      }]
+    }]
   },
   plugins: [
     htmlWebpackPlugin,
