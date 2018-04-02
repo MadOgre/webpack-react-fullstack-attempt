@@ -3,7 +3,14 @@
   "version": "0.0.1",
   "description": "A attempt to create a full stack demo app with react",
   "main": "server.js",
-  "scripts": {},
+  "scripts": {
+    "dev": "run-p nodemon dev-server",
+    "nodemon": "nodemon",
+    "dev-server": "cross-env NODE_ENV=development webpack-dev-server --mode=development"
+  },
+  "nodemonConfig": {
+    "ignore": ["./assets/*"]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MadOgre/webpack-react-fullstack-attempt.git"
@@ -16,7 +23,14 @@
   "homepage": "https://github.com/MadOgre/webpack-react-fullstack-attempt#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "cross-env": "^5.1.4",
     "express": "^4.16.3",
-    "mongoose": "^5.0.12"
+    "html-webpack-plugin": "^3.1.0",
+    "mongoose": "^5.0.12",
+    "nodemon": "^1.17.3",
+    "npm-run-all": "^4.1.2",
+    "webpack": "^4.4.1",
+    "webpack-cli": "^2.0.13",
+    "webpack-dev-server": "^3.1.1"
   }
 }
