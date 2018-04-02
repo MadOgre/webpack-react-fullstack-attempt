@@ -4,6 +4,7 @@ const htmlWebpackPlugin = new HtmlWebpackPlugin({
   template: "./assets/index.html"
 });
 const webpack = require("webpack");
+const autoprefixer = require("autoprefixer");
 
 module.exports = {
   entry: {
@@ -21,6 +22,12 @@ module.exports = {
       }, {
         loader: "css-loader",
         options: {
+          sourceMap: true
+        }
+      }, {
+        loader: "postcss-loader",
+        options: {
+          plugins: [autoprefixer()],
           sourceMap: true
         }
       }, {
