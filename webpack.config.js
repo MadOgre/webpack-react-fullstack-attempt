@@ -55,6 +55,15 @@ module.exports = {
           plugins: ["transform-object-rest-spread", "transform-class-properties"]
         }
       }
+    }, {
+      test: /\.(png|jpe?g|gif|svg|ttf|eot|woff)$/,
+      use: {
+        loader: "file-loader",
+        options: {
+          useRelativePath: true,
+          name: "[name].[hash:10].[ext]"
+        }
+      }
     }]
   },
   plugins: [
