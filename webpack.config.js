@@ -10,6 +10,20 @@ const extractCss = new ExtractTextPlugin({
   filename: "[name].[hash:10].css",
   disable: process.env.NODE_ENV !== "production"
 });
+const ImageMinPlugin = require("imagemin-webpack-plugin").default;
+const imageminMozjpeg = require("imagemin-mozjpeg");
+const imageMinPlugin = new ImageMinPlugin({
+  disable: process.env.NODE_ENV !== "production",
+  plugins: [
+    imageminMozjpeg({
+      quality: 70,
+      progressive: true
+    })
+  ],
+  pngquant: {
+    quality: "90-95"
+  }
+});
 
 module.exports = {
   entry: {
@@ -69,7 +83,8 @@ module.exports = {
   plugins: [
     htmlWebpackPlugin,
     new webpack.HotModuleReplacementPlugin(),
-    extractCss
+    extractCss,
+    imageMinPlugin
   ],
   devServer: {
     open: true,
