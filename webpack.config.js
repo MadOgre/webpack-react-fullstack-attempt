@@ -5,10 +5,15 @@ const htmlWebpackPlugin = new HtmlWebpackPlugin({
 });
 const webpack = require("webpack");
 const autoprefixer = require("autoprefixer");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const extractCss = new ExtractTextPlugin({
+  filename: "[name].[hash:10].css",
+  disable: process.env.NODE_ENV !== "production"
+});
 
 module.exports = {
   entry: {
-    main: ["./assets/scss/global.scss", "./assets/js/main.js"]
+    main: ["normalize.css", "./assets/scss/global.scss", "./assets/js/main.js"]
   },
   output: {
     path: path.resolve(__dirname, "public"),
@@ -17,30 +22,33 @@ module.exports = {
   module: {
     rules: [{
       test: /\.s?css$/,
-      use: [{
-        loader: "style-loader"
-      }, {
-        loader: "css-loader",
-        options: {
-          sourceMap: true
-        }
-      }, {
-        loader: "postcss-loader",
-        options: {
-          plugins: [autoprefixer()],
-          sourceMap: true
-        }
-      }, {
-        loader: "sass-loader",
-        options: {
-          sourceMap: true
-        }
-      }]
+      use: extractCss.extract({
+        use: [{
+          loader: "css-loader",
+          options: {
+            sourceMap: true,
+            minimize: true
+          }
+        }, {
+          loader: "postcss-loader",
+          options: {
+            plugins: [autoprefixer()],
+            sourceMap: true
+          }
+        }, {
+          loader: "sass-loader",
+          options: {
+            sourceMap: true
+          }
+        }],
+        fallback: "style-loader"
+      })
     }]
   },
   plugins: [
     htmlWebpackPlugin,
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    extractCss
   ],
   devServer: {
     open: true,
