@@ -13,7 +13,9 @@ const extractCss = new ExtractTextPlugin({
 
 module.exports = {
   entry: {
-    main: ["normalize.css", "./assets/scss/global.scss", "./assets/js/main.js"]
+    polyfill: ["babel-polyfill"],
+    main: ["normalize.css", "./assets/scss/global.scss", "./assets/js/main.js"],
+
   },
   output: {
     path: path.resolve(__dirname, "public"),
@@ -43,6 +45,16 @@ module.exports = {
         }],
         fallback: "style-loader"
       })
+    }, {
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: {
+        loader: "babel-loader",
+        options: {
+          presets: ["env", "react"],
+          plugins: ["transform-object-rest-spread", "transform-class-properties"]
+        }
+      }
     }]
   },
   plugins: [
