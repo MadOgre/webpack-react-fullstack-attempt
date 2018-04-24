@@ -3,8 +3,11 @@ const app = express();
 const PORT = process.env.NODE_ENV || 3000;
 const path = require("path");
 const bp = require("body-parser");
+const cookieParser = require("cookie-parser");
+const { COOKIE_SECRET } = require("./config");
 
 app.use(bp.json());
+app.use(cookieParser(COOKIE_SECRET));
 require("./api")(app);
 
 app.get("*", (req, res) => 
